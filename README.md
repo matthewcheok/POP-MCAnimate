@@ -4,7 +4,7 @@ POP+MCAnimate ![License MIT](https://go-shields.herokuapp.com/license-MIT-blue.p
 [![Badge w/ Version](https://cocoapod-badges.herokuapp.com/v/POP+MCAnimate/badge.png)](https://github.com/matthewcheok/POP-MCAnimate)
 [![Badge w/ Platform](https://cocoapod-badges.herokuapp.com/p/POP+MCAnimate/badge.svg)](https://github.com/matthewcheok/POP-MCAnimate)
 
-Concise syntax for the [Pop](https://github.com/facebook/pop) animation framework.
+Concise syntax for the [Pop](https://github.com/facebook/pop) animation framework. For more on the motivation behind this experiment, read this [blog post](http://blog.matthewcheok.com/making-your-animations-pop/).
 
 ## Installation
 
