@@ -7,6 +7,7 @@
 //
 
 #import "MCAnimationProxy.h"
+#import "MCAnimationGroupInternal.h"
 
 @implementation MCAnimationProxy
 
@@ -43,6 +44,11 @@
 	if (value) {
 		animation.toValue = value;
 	}
+    
+    MCAnimationGroup *group = [NSObject mc_activeAnimationGroup];
+    if (group) {
+        [group addAnimation:animation];
+    }
     
 	[self.object pop_addAnimation:animation forKey:propertyName];
 }

@@ -21,21 +21,22 @@
 }
 
 - (IBAction)handleTap:(id)sender {
-	_big = !_big;
-
-	self.boxView.springBounciness = 20;
-	self.boxView.springSpeed = 20;
-	self.boxView.spring.alpha = _big ? 0.7 : 1;
-	self.boxView.spring.bounds = _big ? CGRectMake(0, 0, 200, 200) : CGRectMake(0, 0, 100, 100);
-	self.boxView.spring.backgroundColor = _big ? [UIColor blueColor] : [UIColor redColor];
+    self.boxView.springBounciness = 20;
+    self.boxView.springSpeed = 20;
     
-//    POPSpringAnimation *animation = [self.boxView pop_animationForKey:@"bounds"];
-//    if (!animation) {
-//        animation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewBounds];
-//    }
-//    
-//    animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 200, 200)];
-//    [self.boxView pop_addAnimation:animation forKey:@"bounds"];
+    [NSObject animate:^{
+        NSLog(@"animating");
+
+        self.boxView.spring.alpha = 0.5;
+        self.boxView.spring.bounds = CGRectMake(0, 0, 200, 200);
+        self.boxView.spring.backgroundColor = [UIColor blueColor];
+    } completion:^(BOOL finished) {
+        NSLog(@"completed finished %d", finished);
+        
+        self.boxView.alpha = 1;
+        self.boxView.spring.bounds = CGRectMake(0, 0, 100, 100);
+        self.boxView.spring.backgroundColor = [UIColor redColor];
+    }];
 }
 
 - (void)viewDidLoad {

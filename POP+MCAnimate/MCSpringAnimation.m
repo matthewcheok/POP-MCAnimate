@@ -60,15 +60,7 @@ static char kSpringAnimationProxyKey;
 }
 
 + (NSString *)propertyNameForSelector:(SEL)selector {
-    NSString *selectorName = NSStringFromSelector(selector);
-    if (![selectorName hasPrefix:@"set"]) {
-        [NSException raise:NSInternalInconsistencyException format:@"Velocity proxy only takes setters."];
-    }
-    
-    NSString *propertyName = [selectorName substringWithRange:NSMakeRange(3, [selectorName length]-4)];
-    propertyName = [[[propertyName substringWithRange:NSMakeRange(0, 1)] lowercaseString] stringByAppendingString:[propertyName substringFromIndex:1]];
-
-    return propertyName;
+    return [self propertyNameFromSetterSelector:selector];
 }
 
 - (POPPropertyAnimation *)propertyAnimation {

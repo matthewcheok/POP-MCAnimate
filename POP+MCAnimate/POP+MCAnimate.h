@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MCAnimationGroup.h"
 #import "MCVelocityProxy.h"
 
 #import "MCBasicAnimation.h"

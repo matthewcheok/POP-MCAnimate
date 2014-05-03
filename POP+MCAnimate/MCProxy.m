@@ -73,4 +73,27 @@
     [NSException raise:NSInternalInconsistencyException format:@"Use a concrete subclass of MCProxy."];
 }
 
+#pragma mark - Utility
+
++ (NSString *)propertyNameFromSetterSelector:(SEL)selector {
+    NSString *selectorName = NSStringFromSelector(selector);
+    if (![selectorName hasPrefix:@"set"]) {
+        [NSException raise:NSInternalInconsistencyException format:@"%@ only takes setters.", [self description]];
+    }
+    
+    NSString *propertyName = [selectorName substringWithRange:NSMakeRange(3, [selectorName length]-4)];
+    propertyName = [[[propertyName substringWithRange:NSMakeRange(0, 1)] lowercaseString] stringByAppendingString:[propertyName substringFromIndex:1]];
+    
+    return propertyName;
+}
+
++ (NSString *)propertyNameFromGetterSelector:(SEL)selector {
+	NSString *selectorName = NSStringFromSelector(selector);
+	if ([selectorName hasPrefix:@"set"]) {
+		[NSException raise:NSInternalInconsistencyException format:@"%@ only takes setters.", [self description]];
+	}
+    
+	return selectorName;
+}
+
 @end
