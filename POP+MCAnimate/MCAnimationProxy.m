@@ -23,47 +23,55 @@
 	return nil;
 }
 
-- (void)completeInvocationWithPropertyName:(NSString *)propertyName andValue:(id)value {
-    // setup animation property
-    NSString *popPropertyName = [[[self class] __animationPropertiesForClass:[self.object class]] objectForKey:propertyName];
-    
-    if (!popPropertyName) {
-        [NSException raise:NSInternalInconsistencyException format:@"Property '%@' is not animatable.", propertyName];
-    }
+#pragma mark - Methods
 
-    POPAnimatableProperty *property = [POPAnimatableProperty propertyWithName:popPropertyName];
-    
-    // setup animation
+- (void)completeInvocationWithPropertyName:(NSString *)propertyName andValue:(id)value {
+	// setup animation property
+	NSString *popPropertyName = [self __popPropertyNameForPropertyName:propertyName];
+	if (!popPropertyName) {
+		[NSException raise:NSInternalInconsistencyException format:@"Property '%@' is not animatable.", propertyName];
+	}
+
+	POPAnimatableProperty *property = [POPAnimatableProperty propertyWithName:popPropertyName];
+
+	// setup animation
 	POPPropertyAnimation *animation = [self.object pop_animationForKey:propertyName];
-    
+
 	if (!animation) {
 		animation = [self propertyAnimation];
 		animation.property = property;
 	}
-    
+
 	if (value) {
 		animation.toValue = value;
 	}
-    
-    MCAnimationGroup *group = [NSObject mc_activeAnimationGroup];
-    if (group) {
-        [group addAnimation:animation];
-    }
-    
+
+	MCAnimationGroup *group = [NSObject mc_activeAnimationGroup];
+	if (group) {
+		[group addAnimation:animation];
+	}
+
 	[self.object pop_addAnimation:animation forKey:propertyName];
 }
 
 #pragma mark - Private
 
-+ (NSDictionary *)__animationPropertiesForClass:(Class)class {
-	static NSDictionary *animationProperties = nil;
-	if (!animationProperties) {
-		animationProperties = @{
+- (NSString *)__popPropertyNameForPropertyName:(NSString *)propertyName {
+    static NSDictionary *propertiesByClassName = nil;
+	if (!propertiesByClassName) {
+		propertiesByClassName = @{
 			@"CALayer": @{
-                @"backgroundColor": kPOPLayerBackgroundColor,
+				@"backgroundColor": kPOPLayerBackgroundColor,
 				@"bounds": kPOPLayerBounds,
 				@"opacity": kPOPLayerOpacity,
 				@"position": kPOPLayerPosition,
+				@"zPosition": kPOPLayerZPosition
+			},
+
+			@"CAShapeLayer": @{
+				@"strokeColor": kPOPShapeLayerStrokeColor,
+				@"strokeStart": kPOPShapeLayerStrokeStart,
+				@"strokeEnd": kPOPShapeLayerStrokeEnd
 			},
 
 			@"NSLayoutConstraint": @{
@@ -78,14 +86,42 @@
 				@"frame": kPOPViewFrame,
 			},
 
-			@"UITableView": @{
-				@"contentOffset": kPOPTableViewContentOffset,
-				@"contentSize": kPOPTableViewContentSize
-			}
+			@"UIScrollView": @{
+				@"contentOffset": kPOPScrollViewContentOffset,
+				@"contentSize": kPOPScrollViewContentSize
+			},
+
+			@"UINavigationBar": @{
+				@"barTintColor": kPOPNavigationBarBarTintColor
+			},
+
+			@"UIToolbar": @{
+				@"barTintColor": kPOPNavigationBarBarTintColor
+			},
+
+			@"UITabBar": @{
+				@"barTintColor": kPOPTabBarBarTintColor
+			},
 		};
 	}
 
-	return [animationProperties objectForKey:[class description]];
+
+	for (NSString *className in propertiesByClassName) {
+		Class class = NSClassFromString(className);
+
+		if (!class || ![self.object isKindOfClass:class]) {
+			continue;
+		}
+
+		NSDictionary *properties = [propertiesByClassName objectForKey:className];
+		NSString *popPropertyName = [properties objectForKey:propertyName];
+
+		if (popPropertyName) {
+			return popPropertyName;
+		}
+	}
+
+	return nil;
 }
 
 @end

@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
   s.source_files = 'POP+MCAnimate/*.{h,m}'
   s.public_header_files = 'POP+MCAnimate/*.h'
 
-  s.dependency 'pop'
+  s.dependency 'pop', '~> 1.0'
 end
