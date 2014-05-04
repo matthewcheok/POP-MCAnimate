@@ -1,6 +1,6 @@
 //
 //  MCAnimationProxy.h
-//  POPTest
+//  POP+MCAnimate
 //
 //  Created by Matthew Cheok on 29/4/14.
 //  Copyright (c) 2014 Matthew Cheok. All rights reserved.
