@@ -28,7 +28,7 @@
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
 	NSString *propertyName = [[self class] propertyNameForSelector:invocation.selector];
-	int argumentCount = [[invocation methodSignature] numberOfArguments];
+	NSUInteger argumentCount = [[invocation methodSignature] numberOfArguments];
     
 	// wrap argument in NSValue/NSNumber if necessary
     id value = nil;
@@ -41,11 +41,10 @@
 			[NSException raise:NSInternalInconsistencyException format:@"Property '%@' cannot be found on class <%@>.", propertyName, [[self.object class] description]];
 		}
         else if ([[NSString stringWithUTF8String:property_type] rangeOfString:@"@"].location != NSNotFound) {
-            [invocation getArgument:&value atIndex:2];
+            __unsafe_unretained id argument = nil;
+            [invocation getArgument:&argument atIndex:2];
             
-            if ([value isKindOfClass:[UIColor class]]) {
-                value = (id)((UIColor *)value).CGColor;
-            }
+            value = argument;
         }
         else {
             NSUInteger bufferSize = 0;
