@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="wqH-c9-HGk">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--View Controller - Title-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="MCViewController" sceneMemberID="viewController">
@@ -26,27 +26,80 @@
                                     <constraint firstAttribute="width" constant="100" id="qcP-R5-Y8h"/>
                                 </constraints>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="8x3-aE-6jj" appends="YES" id="rBO-OT-oPz"/>
+                                    <outletCollection property="gestureRecognizers" destination="jBt-UY-ulh" appends="YES" id="oH2-PK-xxX"/>
                                 </connections>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag the box around and release" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="js3-0F-5C3">
+                                <rect key="frame" x="19" y="476" width="283" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="Ymd-ly-2pm" secondAttribute="centerY" id="bOz-V6-WTJ"/>
+                            <constraint firstAttribute="centerX" secondItem="js3-0F-5C3" secondAttribute="centerX" id="nj4-p0-QVD"/>
                             <constraint firstAttribute="centerX" secondItem="Ymd-ly-2pm" secondAttribute="centerX" id="s3f-Yr-oip"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="js3-0F-5C3" secondAttribute="bottom" constant="24" id="wJd-ob-Ccz"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem systemItem="flexibleSpace" id="8qw-OA-TCV"/>
+                        <barButtonItem style="plain" id="99d-F4-3OS">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="R16-OS-Gqg">
+                                <rect key="frame" x="10" y="7" width="300" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Spring"/>
+                                    <segment title="Decay"/>
+                                    <segment title="Basic"/>
+                                    <segment title="Complex"/>
+                                </segments>
+                                <connections>
+                                    <action selector="typeChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="Duf-mZ-lHP"/>
+                                </connections>
+                            </segmentedControl>
+                        </barButtonItem>
+                        <barButtonItem systemItem="flexibleSpace" id="7fM-Nz-wlA"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Title" id="PCO-Nw-6CF"/>
                     <connections>
                         <outlet property="boxView" destination="Ymd-ly-2pm" id="DVU-4F-5MB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="8x3-aE-6jj">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="jBt-UY-ulh">
                     <connections>
-                        <action selector="handleTap:" destination="vXZ-lx-hvc" id="b3o-2g-qob"/>
+                        <action selector="handlePan:" destination="vXZ-lx-hvc" id="cuf-9X-zCg"/>
                     </connections>
-                </tapGestureRecognizer>
+                </panGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="1250" y="327"/>
+        </scene>
+        <!--Navigation Controller - Item-->
+        <scene sceneID="pld-uG-Sr1">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="wqH-c9-HGk" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="deL-s8-vRe"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="teb-Ag-GiG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="M2W-UI-cyG">
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="eHg-o4-sAh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f2q-Yh-SBa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="724" y="327"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
