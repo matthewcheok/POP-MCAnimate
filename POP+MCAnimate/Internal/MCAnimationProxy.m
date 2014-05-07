@@ -70,9 +70,20 @@
 				@"opacity": kPOPLayerOpacity,
 				@"position": kPOPLayerPosition,
 				@"zPosition": kPOPLayerZPosition,
-				@"scaleXY": kPOPLayerScaleXY,
-				@"size": kPOPLayerSize,
+
+				@"positionX": kPOPLayerPositionX,
+				@"positionY": kPOPLayerPositionY,
 				@"rotation": kPOPLayerRotation,
+				@"rotationX": kPOPLayerRotationX,
+				@"rotationY": kPOPLayerRotationY,
+				@"scaleX": kPOPLayerScaleX,
+				@"scaleY": kPOPLayerScaleY,
+				@"scaleXY": kPOPLayerScaleXY,
+				@"translationX": kPOPLayerTranslationX,
+				@"translationXY": kPOPLayerTranslationXY,                
+				@"translationY": kPOPLayerTranslationY,
+				@"translationZ": kPOPLayerTranslationZ,
+				@"size": kPOPLayerSize,
 			},
 
 			@"CAShapeLayer": @{
