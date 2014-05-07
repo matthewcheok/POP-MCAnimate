@@ -10,13 +10,15 @@ Concise syntax for the [Pop](https://github.com/facebook/pop) animation framewor
 
 Add the following to your [CocoaPods](http://cocoapods.org/) Podfile
 
-    pod 'POP+MCAnimate'
+    pod 'POP+MCAnimate', '~> 1.0'
 
 or clone as a git submodule,
 
 or just copy files in the ```POP+MCAnimate``` folder into your project.
 
 ## Using POP+MCAnimate
+
+**Breaking change:** Methods and properties have been prefixed with *pop_*. See section on shorthand syntax below.
 
 Replace this:
 
@@ -28,7 +30,7 @@ Replace this:
     animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 200, 200)];
     [self.boxView pop_addAnimation:animation forKey:@"bounds"];
 
-With this:
+With this:*
 
     self.boxView.spring.bounds = CGRectMake(0, 0, 200, 200);
 
@@ -72,9 +74,14 @@ Block-based methods are provided on `NSObject` similar to UIKit block-based anim
       self.boxView.spring.center = viewCenter;
     }];
 
-## Remarks
+## Shorthand*
 
-Currently only Pop animatable properties that correspond directly to UIKit properties are supported.
+The above examples require the use of **shorthand** so you can drop the *pop_* prefix from methods and properties. Just include the following in your pre-compiled header file after importing **UIKit**:
+
+    #define MCANIMATE_SHORTHAND
+    #import <POP+MCAnimate.h>
+
+## Remarks
 
 The list of supported properties are:
 - **CALayer** (and subclasses)
@@ -83,14 +90,30 @@ The list of supported properties are:
   - opacity
   - position
   - zPosition
+  - *pop_*positionX
+  - *pop_*positionY
+  - *pop_*rotation
+  - *pop_*rotationX
+  - *pop_*rotationY
+  - *pop_*scaleX
+  - *pop_*scaleY
+  - *pop_*scaleXY
+  - *pop_*translationX
+  - *pop_*translationXY
+  - *pop_*translationY
+  - *pop_*translationZ
+  - *pop_*size
+
 
 - **CAShapeLayer**
   - strokeColor
   - strokeStart
   - strokeEnd
 
+
 - **NSLayoutConstraint**
   - constant
+
 
 - **UIView** (and subclasses)
   - alpha
@@ -98,10 +121,15 @@ The list of supported properties are:
   - bounds
   - center
   - frame
+  - *pop_*scaleX
+  - *pop_*scaleY
+  - *pop_*scaleXY
+
 
 - **UIScrollView** (and subclasses)
   - contentOffset
   - contentSize
+
 
 ## License
 
