@@ -11,53 +11,6 @@
 
 static char kBasicAnimationProxyKey;
 
-@implementation NSObject (MCBasicAnimation)
-
-@dynamic duration;
-
-- (MCBasicAnimation *)mc_basicAnimationProxy {
-	MCBasicAnimation *proxy = objc_getAssociatedObject(self, &kBasicAnimationProxyKey);
-	if (!proxy) {
-		proxy = [[MCBasicAnimation alloc] initWithObject:self];
-		objc_setAssociatedObject(self, &kBasicAnimationProxyKey, proxy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-	}
-	return proxy;
-}
-
-- (CFTimeInterval)duration {
-    return [self mc_basicAnimationProxy].duration;
-}
-
-- (void)setDuration:(CFTimeInterval)duration {
-    [self mc_basicAnimationProxy].duration = duration;
-}
-
-- (instancetype)linear {
-    MCBasicAnimation *proxy = [self mc_basicAnimationProxy];
-    proxy.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    return (id) proxy;
-}
-
-- (instancetype)easeIn {
-    MCBasicAnimation *proxy = [self mc_basicAnimationProxy];
-    proxy.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-    return (id) proxy;
-}
-
-- (instancetype)easeOut {
-    MCBasicAnimation *proxy = [self mc_basicAnimationProxy];
-    proxy.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    return (id) proxy;
-}
-
-- (instancetype)easeInEaseOut{
-    MCBasicAnimation *proxy = [self mc_basicAnimationProxy];
-    proxy.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    return (id) proxy;
-}
-
-@end
-
 @implementation MCBasicAnimation
 
 - (instancetype)initWithObject:(id)object {
@@ -77,6 +30,51 @@ static char kBasicAnimationProxyKey;
     animation.duration = self.duration;
     animation.timingFunction = self.timingFunction;
     return animation;
+}
+
+@end
+
+@implementation NSObject (MCBasicAnimation)
+
+- (MCBasicAnimation *)mc_basicAnimationProxy {
+	MCBasicAnimation *proxy = objc_getAssociatedObject(self, &kBasicAnimationProxyKey);
+	if (!proxy) {
+		proxy = [[MCBasicAnimation alloc] initWithObject:self];
+		objc_setAssociatedObject(self, &kBasicAnimationProxyKey, proxy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	}
+	return proxy;
+}
+
+- (CFTimeInterval)pop_duration {
+    return [self mc_basicAnimationProxy].duration;
+}
+
+- (void)setPop_duration:(CFTimeInterval)duration {
+    [self mc_basicAnimationProxy].duration = duration;
+}
+
+- (instancetype)pop_linear {
+    MCBasicAnimation *proxy = [self mc_basicAnimationProxy];
+    proxy.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    return (id) proxy;
+}
+
+- (instancetype)pop_easeIn {
+    MCBasicAnimation *proxy = [self mc_basicAnimationProxy];
+    proxy.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    return (id) proxy;
+}
+
+- (instancetype)pop_easeOut {
+    MCBasicAnimation *proxy = [self mc_basicAnimationProxy];
+    proxy.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    return (id) proxy;
+}
+
+- (instancetype)pop_easeInEaseOut{
+    MCBasicAnimation *proxy = [self mc_basicAnimationProxy];
+    proxy.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    return (id) proxy;
 }
 
 @end

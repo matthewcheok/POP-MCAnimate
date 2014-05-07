@@ -9,33 +9,6 @@
 #import "MCAnimationGroup.h"
 #import "MCAnimationGroupInternal.h"
 
-@implementation NSObject (MCAnimationGroup)
-
-+ (void)animate:(void (^)(void))animations completion:(void (^)(BOOL))completion {
-    MCAnimationGroup *group = [[MCAnimationGroup alloc] init];
-    [[self mc_animationGroups] addObject:group];
-    
-    __weak MCAnimationGroup *weakGroup = group;
-    group.completionBlock = ^(BOOL finished) {
-        MCAnimationGroup *strongGroup = weakGroup;
-        [[self mc_animationGroups] removeObject:strongGroup];
-
-        if (completion) {
-            completion(finished);
-        }
-    };
-    
-    [self mc_setActiveAnimationGroup:group];
-    
-    if (animations) {
-        animations();
-    }
-    
-    [self mc_setActiveAnimationGroup:nil];
-}
-
-@end
-
 @interface MCAnimationGroup ()
 
 @property (strong, nonatomic) NSMutableSet *remainingAnimations;
@@ -93,6 +66,33 @@
         }
     }
     return YES;
+}
+
+@end
+
+@implementation NSObject (MCAnimationGroup)
+
++ (void)pop_animate:(void (^)(void))animations completion:(void (^)(BOOL))completion {
+    MCAnimationGroup *group = [[MCAnimationGroup alloc] init];
+    [[self mc_animationGroups] addObject:group];
+    
+    __weak MCAnimationGroup *weakGroup = group;
+    group.completionBlock = ^(BOOL finished) {
+        MCAnimationGroup *strongGroup = weakGroup;
+        [[self mc_animationGroups] removeObject:strongGroup];
+        
+        if (completion) {
+            completion(finished);
+        }
+    };
+    
+    [self mc_setActiveAnimationGroup:group];
+    
+    if (animations) {
+        animations();
+    }
+    
+    [self mc_setActiveAnimationGroup:nil];
 }
 
 @end

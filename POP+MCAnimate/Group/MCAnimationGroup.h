@@ -9,12 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <POP.h>
 
-@interface NSObject (MCAnimationGroup)
-
-+ (void)animate:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
-
-@end
-
 @interface MCAnimationGroup : NSObject
 
 @property (assign, nonatomic, getter = isFinished, readonly) BOOL finished;
@@ -24,3 +18,27 @@
 - (void)removeAnimation:(POPAnimation *)animation finished:(BOOL)finished;
 
 @end
+
+@interface NSObject (MCAnimationGroup)
+
++ (void)pop_animate:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
+
+@end
+
+#ifdef MCANIMATE_SHORTHAND
+
+@interface NSObject (MCAnimationGroup_DropPrefix)
+
++ (void)animate:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
+
+@end
+
+@implementation NSObject (MCAnimationGroup_DropPrefix)
+
++ (void)animate:(void (^)(void))animations completion:(void (^)(BOOL finished))completion {
+    [self pop_animate:animations completion:completion];
+}
+
+@end
+
+#endif

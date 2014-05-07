@@ -13,41 +13,6 @@
 
 static char kSpringAnimationProxyKey;
 
-@implementation NSObject (MCSpringAnimation)
-
-@dynamic springBounciness, springSpeed;
-
-- (MCSpringAnimation *)mc_springAnimationProxy {
-	MCSpringAnimation *proxy = objc_getAssociatedObject(self, &kSpringAnimationProxyKey);
-	if (!proxy) {
-		proxy = [[MCSpringAnimation alloc] initWithObject:self];
-		objc_setAssociatedObject(self, &kSpringAnimationProxyKey, proxy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-	}
-	return proxy;
-}
-
-- (instancetype)spring {
-	return (id) [self mc_springAnimationProxy];
-}
-
-- (CGFloat)springBounciness {
-    return [self mc_springAnimationProxy].springBounciness;
-}
-
-- (void)setSpringBounciness:(CGFloat)springBounciness {
-    [self mc_springAnimationProxy].springBounciness = springBounciness;
-}
-
-- (CGFloat)springSpeed {
-    return [self mc_springAnimationProxy].springSpeed;
-}
-
-- (void)setSpringSpeed:(CGFloat)springSpeed {
-    [self mc_springAnimationProxy].springSpeed = springSpeed;
-}
-
-@end
-
 @implementation MCSpringAnimation
 
 - (instancetype)initWithObject:(id)object {
@@ -75,6 +40,39 @@ static char kSpringAnimationProxyKey;
 	}
     
     return animation;
+}
+
+@end
+
+@implementation NSObject (MCSpringAnimation)
+
+- (MCSpringAnimation *)mc_springAnimationProxy {
+	MCSpringAnimation *proxy = objc_getAssociatedObject(self, &kSpringAnimationProxyKey);
+	if (!proxy) {
+		proxy = [[MCSpringAnimation alloc] initWithObject:self];
+		objc_setAssociatedObject(self, &kSpringAnimationProxyKey, proxy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	}
+	return proxy;
+}
+
+- (instancetype)pop_spring {
+	return (id) [self mc_springAnimationProxy];
+}
+
+- (CGFloat)pop_springBounciness {
+    return [self mc_springAnimationProxy].springBounciness;
+}
+
+- (void)setPop_springBounciness:(CGFloat)springBounciness {
+    [self mc_springAnimationProxy].springBounciness = springBounciness;
+}
+
+- (CGFloat)pop_springSpeed {
+    return [self mc_springAnimationProxy].springSpeed;
+}
+
+- (void)setPop_springSpeed:(CGFloat)springSpeed {
+    [self mc_springAnimationProxy].springSpeed = springSpeed;
 }
 
 @end

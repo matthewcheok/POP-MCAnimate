@@ -7,14 +7,7 @@
 //
 
 #import "MCAnimationProxy.h"
-
-@interface NSObject (MCDecayAnimation)
-
-@property (assign, nonatomic) CGFloat decayDeceleration;
-
-- (instancetype)decay;
-
-@end
+#import "MCShorthand.h"
 
 @interface MCDecayAnimation : MCAnimationProxy
 
@@ -22,3 +15,29 @@
 
 @end
 
+@interface NSObject (MCDecayAnimation)
+
+@property (assign, nonatomic) CGFloat pop_decayDeceleration;
+
+- (instancetype)pop_decay;
+
+@end
+
+#ifdef MCANIMATE_SHORTHAND
+
+@interface NSObject (MCDecayAnimation_DropPrefix)
+
+@property (assign, nonatomic) CGFloat decayDeceleration;
+
+- (instancetype)decay;
+
+@end
+
+@implementation NSObject (MCDecayAnimation_DropPrefix)
+
+MCSHORTHAND_PROPERTY(decayDeceleration, DecayDeceleration, CGFloat)
+MCSHORTHAND_GETTER(decay, instancetype)
+
+@end
+
+#endif

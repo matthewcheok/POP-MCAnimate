@@ -7,8 +7,29 @@
 //
 
 #import "MCAnimationProxy.h"
+#import "MCShorthand.h"
+
+@interface MCBasicAnimation : MCAnimationProxy
+
+@property (assign, nonatomic) CFTimeInterval duration;
+@property (strong, nonatomic) CAMediaTimingFunction *timingFunction;
+
+@end
 
 @interface NSObject (MCBasicAnimation)
+
+@property (assign, nonatomic) CFTimeInterval pop_duration;
+
+- (instancetype)pop_linear;
+- (instancetype)pop_easeIn;
+- (instancetype)pop_easeOut;
+- (instancetype)pop_easeInEaseOut;
+
+@end
+
+#ifdef MCANIMATE_SHORTHAND
+
+@interface NSObject (MCBasicAnimation_DropPrefix)
 
 @property (assign, nonatomic) CFTimeInterval duration;
 
@@ -19,11 +40,14 @@
 
 @end
 
-@interface MCBasicAnimation : MCAnimationProxy
+@implementation NSObject (MCBasicAnimation_DropPrefix)
 
-@property (assign, nonatomic) CFTimeInterval duration;
-@property (strong, nonatomic) CAMediaTimingFunction *timingFunction;
+MCSHORTHAND_PROPERTY(duration, Duration, CFTimeInterval)
+MCSHORTHAND_GETTER(linear, instancetype)
+MCSHORTHAND_GETTER(easeIn, instancetype)
+MCSHORTHAND_GETTER(easeOut, instancetype)
+MCSHORTHAND_GETTER(easeInEaseOut, instancetype)
 
 @end
 
-
+#endif
