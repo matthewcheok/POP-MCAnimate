@@ -26,6 +26,10 @@
 #pragma mark - Methods
 
 - (void)completeInvocationWithPropertyName:(NSString *)propertyName andValue:(id)value {
+	if ([propertyName hasPrefix:@"pop_"]) {
+		propertyName = [propertyName substringFromIndex:4];
+	}
+
 	// setup animation property
 	NSString *popPropertyName = [self __popPropertyNameForPropertyName:propertyName];
 	if (!popPropertyName) {
@@ -57,7 +61,7 @@
 #pragma mark - Private
 
 - (NSString *)__popPropertyNameForPropertyName:(NSString *)propertyName {
-    static NSDictionary *propertiesByClassName = nil;
+	static NSDictionary *propertiesByClassName = nil;
 	if (!propertiesByClassName) {
 		propertiesByClassName = @{
 			@"CALayer": @{
@@ -65,7 +69,10 @@
 				@"bounds": kPOPLayerBounds,
 				@"opacity": kPOPLayerOpacity,
 				@"position": kPOPLayerPosition,
-				@"zPosition": kPOPLayerZPosition
+				@"zPosition": kPOPLayerZPosition,
+				@"scaleXY": kPOPLayerScaleXY,
+				@"size": kPOPLayerSize,
+				@"rotation": kPOPLayerRotation,
 			},
 
 			@"CAShapeLayer": @{
@@ -84,6 +91,9 @@
 				@"bounds": kPOPViewBounds,
 				@"center": kPOPViewCenter,
 				@"frame": kPOPViewFrame,
+				@"scaleX": kPOPViewScaleX,
+				@"scaleY": kPOPViewScaleY,
+				@"scaleXY": kPOPViewScaleXY,
 			},
 
 			@"UIScrollView": @{

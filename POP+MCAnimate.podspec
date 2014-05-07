@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'POP+MCAnimate'
-  s.version  = '0.2'
+  s.version  = '0.3'
   s.platform = :ios, '7.0'
   s.license  = { :type => 'MIT', :file => 'LICENSE' }
   s.summary  = 'Concise syntax for the Pop animation framework.'
@@ -16,4 +16,22 @@ Pod::Spec.new do |s|
   s.public_header_files = 'POP+MCAnimate/*.h'
 
   s.dependency 'pop', '~> 1.0'
+
+  s.subspec 'Internal' do |ss|
+    ss.source_files = 'POP+MCAnimate/Internal/*.{h,m}'
+    ss.public_header_files = ''
+  end
+
+  s.subspec 'Animations' do |ss|
+    ss.source_files = 'POP+MCAnimate/Animations/*.{h,m}'
+  end
+
+  s.subspec 'Group' do |ss|
+    ss.source_files = 'POP+MCAnimate/Group/*.{h,m}'
+  end
+
+  s.subspec 'Shorthand' do |ss|
+    ss.source_files = 'POP+MCAnimate/Shorthand/*.{h,m}'
+  end
+
 end

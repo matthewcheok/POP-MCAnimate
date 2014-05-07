@@ -7,7 +7,6 @@
 //
 
 #import "MCViewController.h"
-#import <POP+MCAnimate.h>
 
 typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 	MCControllerAnimationTypeSpring = 0,
@@ -27,22 +26,22 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 @implementation MCViewController
 
 - (UIColor *)greatColor {
-    switch (self.type) {
-        case MCControllerAnimationTypeSpring:
-            return [UIColor colorWithRed:1.0f green:0.22f blue:0.22f alpha:1.0f];
+	switch (self.type) {
+		case MCControllerAnimationTypeSpring:
+			return [UIColor colorWithRed:1.0f green:0.22f blue:0.22f alpha:1.0f];
 
-        case MCControllerAnimationTypeDecay:
-            return [UIColor colorWithRed:1.0f green:0.79f blue:0.28f alpha:1.0f];
-            
-        case MCControllerAnimationTypeBasic:
-            return [UIColor colorWithRed:0.27f green:0.85f blue:0.46f alpha:1.0f];
-            
-        case MCControllerAnimationTypeComplex:
-            return [UIColor colorWithRed:0.18f green:0.67f blue:0.84f alpha:1.0f];
-            
-        default:
-            return [UIColor whiteColor];
-    }
+		case MCControllerAnimationTypeDecay:
+			return [UIColor colorWithRed:1.0f green:0.79f blue:0.28f alpha:1.0f];
+
+		case MCControllerAnimationTypeBasic:
+			return [UIColor colorWithRed:0.27f green:0.85f blue:0.46f alpha:1.0f];
+
+		case MCControllerAnimationTypeComplex:
+			return [UIColor colorWithRed:0.18f green:0.67f blue:0.84f alpha:1.0f];
+
+		default:
+			return [UIColor whiteColor];
+	}
 }
 
 - (IBAction)typeChanged:(UISegmentedControl *)segmentedControl {
@@ -79,7 +78,7 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 			break;
 	}
 
-    UIColor *selectedColor = [self greatColor];    
+	UIColor *selectedColor = [self greatColor];
 	self.navigationController.navigationBar.easeInEaseOut.barTintColor = selectedColor;
 	self.boxView.easeInEaseOut.backgroundColor = selectedColor;
 }
@@ -128,17 +127,21 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 				case MCControllerAnimationTypeComplex: {
 					self.boxView.springBounciness = 4;
 					self.boxView.springSpeed = 12;
+					self.boxView.layer.springBounciness = 1;
+					self.boxView.layer.springSpeed = 1;
 
-					UIColor * selectedColor = [self greatColor];
+					UIColor *selectedColor = [self greatColor];
 					[NSObject animate: ^{
-					    self.boxView.spring.alpha = 0.5;
-					    self.boxView.spring.bounds = CGRectMake(0, 0, 200, 200);
-					    self.boxView.spring.backgroundColor = [UIColor purpleColor];
+					    self.boxView.spring.scaleXY = CGPointMake(2, 2);
+					    self.boxView.spring.backgroundColor = [[UIColor purpleColor] colorWithAlphaComponent:0.5];
 					} completion: ^(BOOL finished) {
-					    self.boxView.alpha = 1;
-					    self.boxView.spring.bounds = CGRectMake(0, 0, 100, 100);
-					    self.boxView.spring.backgroundColor = selectedColor;
-					    self.boxView.spring.center = viewCenter;
+					    [NSObject animate: ^{
+					        self.boxView.layer.spring.rotation = M_PI * 2;
+						} completion: ^(BOOL finished) {
+					        self.boxView.spring.scaleXY = CGPointMake(1, 1);
+                            self.boxView.spring.backgroundColor = selectedColor;
+					        self.boxView.spring.center = viewCenter;
+						}];
 					}];
 					break;
 				}
@@ -159,9 +162,15 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 
-	self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    self.boxView.backgroundColor = [UIColor whiteColor];
+#ifdef MCANIMATE_SHORTHAND
+    NSLog(@"shorthand enabled");
+#else
+    NSLog(@"shorthand disabled");
+#endif
     
+	self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+	self.boxView.backgroundColor = [UIColor whiteColor];
+
 	[self typeChanged:nil];
 }
 

@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "CALayer+MCShorthand.h"
+#import "UIView+MCShorthand.h"
+
 #import "MCAnimationGroup.h"
 #import "MCVelocityProxy.h"
 
 #import "MCBasicAnimation.h"
 #import "MCDecayAnimation.h"
 #import "MCSpringAnimation.h"
+
