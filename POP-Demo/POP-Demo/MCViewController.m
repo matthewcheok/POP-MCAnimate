@@ -138,10 +138,12 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 					    [NSObject animate: ^{
 					        self.boxView.layer.spring.rotation = M_PI * 2;
 						} completion: ^(BOOL finished) {
+                            NSLog(@"finished? %d", finished);
 					        self.boxView.spring.scaleXY = CGPointMake(1, 1);
                             self.boxView.spring.backgroundColor = selectedColor;
 					        self.boxView.spring.center = viewCenter;
 						}];
+                        // [self.boxView.layer.stop rotation];
 					}];
 					break;
 				}

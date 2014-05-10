@@ -13,6 +13,7 @@
 
 #import "MCAnimationGroup.h"
 #import "MCVelocityProxy.h"
+#import "MCStopProxy.h"
 
 #import "MCBasicAnimation.h"
 #import "MCDecayAnimation.h"
