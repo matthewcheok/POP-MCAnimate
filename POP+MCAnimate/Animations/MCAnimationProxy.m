@@ -161,6 +161,10 @@
 @implementation NSObject (MCAnimationProxy)
 
 + (void)pop_addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id, CGFloat *))readBlock writeBlock:(void (^)(id, const CGFloat *))writeBlock threshold:(CGFloat)threshold {
+    [self pop_registerAnimatablePropertyWithName:propertyName readBlock:readBlock writeBlock:writeBlock threshold:threshold];
+}
+
++ (void)pop_registerAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id, CGFloat *))readBlock writeBlock:(void (^)(id, const CGFloat *))writeBlock threshold:(CGFloat)threshold {
     NSString *className = NSStringFromClass(self);
 	NSString *domainName = [NSString stringWithFormat:@"%@.%@", className, propertyName];
 	POPAnimatableProperty *property = [POPAnimatableProperty propertyWithName:domainName initializer: ^(POPMutableAnimatableProperty *prop) {

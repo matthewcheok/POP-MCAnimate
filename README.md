@@ -84,7 +84,7 @@ The `finished` flag in the completion handler will return `NO` if any of the ani
 
 You can make any property animatable by first declaring it:
 
-    [UILabel addAnimatablePropertyWithName:@"textColor" readBlock:^(UILabel *label, CGFloat values[]) {
+    [UILabel registerAnimatablePropertyWithName:@"textColor" readBlock:^(UILabel *label, CGFloat values[]) {
         POPUIColorGetRGBAComponents(label.textColor, values);
     } writeBlock:^(UILabel *label, const CGFloat values[]) {
         label.textColor = POPUIColorRGBACreate(values);

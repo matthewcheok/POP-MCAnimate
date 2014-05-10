@@ -22,7 +22,8 @@
 
 @interface NSObject (MCAnimationProxy)
 
-+ (void)pop_addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold;
++ (void)pop_addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold __attribute__((deprecated));
++ (void)pop_registerAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold;
 
 @end
 
@@ -30,14 +31,19 @@
 
 @interface NSObject (MCAnimationProxy_DropPrefix)
 
-+ (void)addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold;
++ (void)addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold __attribute__((deprecated));
++ (void)registerAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold;
 
 @end
 
 @implementation NSObject (MCAnimationProxy_DropPrefix)
 
 + (void)addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold {
-    [self pop_addAnimatablePropertyWithName:propertyName readBlock:readBlock writeBlock:writeBlock threshold:threshold];
+    [self pop_registerAnimatablePropertyWithName:propertyName readBlock:readBlock writeBlock:writeBlock threshold:threshold];
+}
+
++ (void)registerAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold {
+    [self pop_registerAnimatablePropertyWithName:propertyName readBlock:readBlock writeBlock:writeBlock threshold:threshold];
 }
 
 @end

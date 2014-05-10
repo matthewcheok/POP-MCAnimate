@@ -179,7 +179,7 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 #endif
     
     // declare custom property
-    [UILabel addAnimatablePropertyWithName:@"textColor" readBlock:^(UILabel *label, CGFloat values[]) {
+    [UILabel registerAnimatablePropertyWithName:@"textColor" readBlock:^(UILabel *label, CGFloat values[]) {
         POPUIColorGetRGBAComponents(label.textColor, values);
     } writeBlock:^(UILabel *label, const CGFloat values[]) {
         label.textColor = POPUIColorRGBACreate(values);
