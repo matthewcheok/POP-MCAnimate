@@ -15,11 +15,13 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 	MCControllerAnimationTypeComplex
 };
 
+#import "POPCGUtils.h"
 
 @interface MCViewController ()
 
 @property (assign, nonatomic) MCControllerAnimationType type;
 @property (weak, nonatomic) IBOutlet UIView *boxView;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
 @end
 
@@ -81,6 +83,12 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 	UIColor *selectedColor = [self greatColor];
 	self.navigationController.navigationBar.easeInEaseOut.barTintColor = selectedColor;
 	self.boxView.easeInEaseOut.backgroundColor = selectedColor;
+    
+    [NSObject animate:^{
+        self.messageLabel.spring.textColor = selectedColor;
+    } completion:^(BOOL finished) {
+        self.messageLabel.spring.textColor = [UIColor blackColor];
+    }];
 }
 
 - (IBAction)handlePan:(UIPanGestureRecognizer *)pan {
@@ -169,6 +177,13 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 #else
     NSLog(@"shorthand disabled");
 #endif
+    
+    // declare custom property
+    [UILabel addAnimatablePropertyWithName:@"textColor" readBlock:^(UILabel *label, CGFloat values[]) {
+        POPUIColorGetRGBAComponents(label.textColor, values);
+    } writeBlock:^(UILabel *label, const CGFloat values[]) {
+        label.textColor = POPUIColorRGBACreate(values);
+    } threshold:0.01];
     
 	self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
 	self.boxView.backgroundColor = [UIColor whiteColor];

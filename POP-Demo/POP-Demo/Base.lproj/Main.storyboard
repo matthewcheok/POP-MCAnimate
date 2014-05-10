@@ -67,6 +67,7 @@
                     <navigationItem key="navigationItem" title="Title" id="PCO-Nw-6CF"/>
                     <connections>
                         <outlet property="boxView" destination="Ymd-ly-2pm" id="DVU-4F-5MB"/>
+                        <outlet property="messageLabel" destination="js3-0F-5C3" id="web-p9-vct"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

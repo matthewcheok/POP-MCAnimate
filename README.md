@@ -80,6 +80,20 @@ If you need to stop animations mid-way, use the stop proxy:
 
 The `finished` flag in the completion handler will return `NO` if any of the animations in the group were stopped before completion.
 
+## Custom Properties
+
+You can make any property animatable by first declaring it:
+
+    [UILabel addAnimatablePropertyWithName:@"textColor" readBlock:^(UILabel *label, CGFloat values[]) {
+        POPUIColorGetRGBAComponents(label.textColor, values);
+    } writeBlock:^(UILabel *label, const CGFloat values[]) {
+        label.textColor = POPUIColorRGBACreate(values);
+    } threshold:0.01];
+
+You do this by providing a read block, write block and threshold to tell Pop how to get and set numerical values on your property and the smallest increment to change it by. Later, just animate as usual:
+
+    self.messageLabel.spring.textColor = [UIColor blackColor];
+
 ## Shorthand*
 
 The above examples require the use of **shorthand** so you can drop the *pop_* prefix from methods and properties. Just include the following in your pre-compiled header file after importing **UIKit**:

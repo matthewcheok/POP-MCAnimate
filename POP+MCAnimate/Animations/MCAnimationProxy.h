@@ -19,3 +19,27 @@
 - (POPPropertyAnimation *)propertyAnimation;
 
 @end
+
+@interface NSObject (MCAnimationProxy)
+
++ (void)pop_addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold;
+
+@end
+
+#ifdef MCANIMATE_SHORTHAND
+
+@interface NSObject (MCAnimationProxy_DropPrefix)
+
++ (void)addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold;
+
+@end
+
+@implementation NSObject (MCAnimationProxy_DropPrefix)
+
++ (void)addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold {
+    [self pop_addAnimatablePropertyWithName:propertyName readBlock:readBlock writeBlock:writeBlock threshold:threshold];
+}
+
+@end
+
+#endif

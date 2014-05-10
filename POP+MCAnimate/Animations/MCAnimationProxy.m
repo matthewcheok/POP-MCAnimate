@@ -30,13 +30,11 @@
 		propertyName = [propertyName substringFromIndex:4];
 	}
 
-	// setup animation property
-	NSString *popPropertyName = [self __popPropertyNameForPropertyName:propertyName];
-	if (!popPropertyName) {
+    // setup property
+	POPAnimatableProperty *property = [self __animatablePropertyForPropertyName:propertyName];
+    if (!property) {
 		[NSException raise:NSInternalInconsistencyException format:@"Property '%@' is not animatable.", propertyName];
 	}
-
-	POPAnimatableProperty *property = [POPAnimatableProperty propertyWithName:popPropertyName];
 
 	// setup animation
 	POPPropertyAnimation *animation = [self.object pop_animationForKey:propertyName];
@@ -60,10 +58,10 @@
 
 #pragma mark - Private
 
-- (NSString *)__popPropertyNameForPropertyName:(NSString *)propertyName {
-	static NSDictionary *propertiesByClassName = nil;
-	if (!propertiesByClassName) {
-		propertiesByClassName = @{
++ (NSMutableDictionary *)__animatablePropertiesByClassName {
+	static NSMutableDictionary *__propertiesByClassName = nil;
+	if (!__propertiesByClassName) {
+		NSDictionary *mapping = @{
 			@"CALayer": @{
 				@"backgroundColor": kPOPLayerBackgroundColor,
 				@"bounds": kPOPLayerBounds,
@@ -80,7 +78,7 @@
 				@"scaleY": kPOPLayerScaleY,
 				@"scaleXY": kPOPLayerScaleXY,
 				@"translationX": kPOPLayerTranslationX,
-				@"translationXY": kPOPLayerTranslationXY,                
+				@"translationXY": kPOPLayerTranslationXY,
 				@"translationY": kPOPLayerTranslationY,
 				@"translationZ": kPOPLayerTranslationZ,
 				@"size": kPOPLayerSize,
@@ -124,25 +122,62 @@
 				@"barTintColor": kPOPTabBarBarTintColor
 			},
 		};
-	}
 
-
-	for (NSString *className in propertiesByClassName) {
-		Class class = NSClassFromString(className);
-
-		if (!class || ![self.object isKindOfClass:class]) {
-			continue;
-		}
-
-		NSDictionary *properties = [propertiesByClassName objectForKey:className];
-		NSString *popPropertyName = [properties objectForKey:propertyName];
-
-		if (popPropertyName) {
-			return popPropertyName;
+		__propertiesByClassName = [NSMutableDictionary dictionary];
+		for (NSString *className in mapping) {
+			__propertiesByClassName[className] = [mapping[className] mutableCopy];
 		}
 	}
+
+	return __propertiesByClassName;
+}
+
+- (POPAnimatableProperty *)__animatablePropertyForPropertyName:(NSString *)propertyName {
+    NSDictionary *animatableProperties = [[self class] __animatablePropertiesByClassName];
+    
+    Class class = [self.object class];
+    
+    while (class != [NSObject class]) {
+        NSString *className = NSStringFromClass(class);
+        NSDictionary *classProperties = [animatableProperties objectForKey:className];
+        if (classProperties) {
+            id property = [classProperties objectForKey:propertyName];
+            if ([property isKindOfClass:[NSString class]]) {
+                return [POPAnimatableProperty propertyWithName:property];
+            }
+            else if ([property isKindOfClass:[POPAnimatableProperty class]]) {
+                return property;
+            }
+        }
+        
+        class = [class superclass];
+    }
 
 	return nil;
+}
+
+@end
+
+@implementation NSObject (MCAnimationProxy)
+
++ (void)pop_addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id, CGFloat *))readBlock writeBlock:(void (^)(id, const CGFloat *))writeBlock threshold:(CGFloat)threshold {
+    NSString *className = NSStringFromClass(self);
+	NSString *domainName = [NSString stringWithFormat:@"%@.%@", className, propertyName];
+	POPAnimatableProperty *property = [POPAnimatableProperty propertyWithName:domainName initializer: ^(POPMutableAnimatableProperty *prop) {
+	    prop.readBlock = readBlock;
+	    prop.writeBlock = writeBlock;
+	    prop.threshold = threshold;
+	}];
+    
+    NSMutableDictionary *animatableProperties = [MCAnimationProxy __animatablePropertiesByClassName];
+    
+    NSMutableDictionary *classProperties = [animatableProperties objectForKey:className];
+    if (!classProperties) {
+        classProperties = [NSMutableDictionary dictionary];
+        animatableProperties[className] = classProperties;
+    }
+    
+    classProperties[propertyName] = property;
 }
 
 @end
