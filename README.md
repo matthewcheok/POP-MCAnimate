@@ -74,6 +74,12 @@ Block-based methods are provided on `NSObject` similar to UIKit block-based anim
       self.boxView.spring.center = viewCenter;
     }];
 
+If you need to stop animations mid-way, use the stop proxy:
+
+    [self.boxView.stop bounds];
+
+The `finished` flag in the completion handler will return `NO` if any of the animations in the group were stopped before completion.
+
 ## Shorthand*
 
 The above examples require the use of **shorthand** so you can drop the *pop_* prefix from methods and properties. Just include the following in your pre-compiled header file after importing **UIKit**:
