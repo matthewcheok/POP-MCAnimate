@@ -13,31 +13,6 @@
 
 static char kVelocityProxyKey;
 
-@implementation NSObject (MCVelocityProxyInternal)
-
-- (MCVelocityProxy *)mc_velocityProxy {
-    MCVelocityProxy *proxy = objc_getAssociatedObject(self, &kVelocityProxyKey);
-	if (!proxy) {
-		proxy = [[MCVelocityProxy alloc] initWithObject:self];
-		objc_setAssociatedObject(self, &kVelocityProxyKey, proxy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-	}
-	return proxy;
-}
-
-@end
-
-@implementation NSObject (MCVelocityProxy)
-
-- (id)velocity {
-    return (id)[self mc_velocityProxy];
-}
-
-- (void)setVelocity:(id)velocity {
-    [self mc_velocityProxy].velocity = velocity;
-}
-
-@end
-
 @implementation MCVelocityProxy
 
 + (NSString *)propertyNameForSelector:(SEL)selector {
@@ -54,6 +29,31 @@ static char kVelocityProxyKey;
 
 - (void)completeInvocationWithPropertyName:(NSString *)propertyName andValue:(id)value {
     self.velocity = value;
+}
+
+@end
+
+@implementation NSObject (MCVelocityProxyInternal)
+
+- (MCVelocityProxy *)mc_velocityProxy {
+    MCVelocityProxy *proxy = objc_getAssociatedObject(self, &kVelocityProxyKey);
+	if (!proxy) {
+		proxy = [[MCVelocityProxy alloc] initWithObject:self];
+		objc_setAssociatedObject(self, &kVelocityProxyKey, proxy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	}
+	return proxy;
+}
+
+@end
+
+@implementation NSObject (MCVelocityProxy)
+
+- (id)pop_velocity {
+    return (id)[self mc_velocityProxy];
+}
+
+- (void)setPop_velocity:(id)velocity {
+    [self mc_velocityProxy].velocity = velocity;
 }
 
 @end
