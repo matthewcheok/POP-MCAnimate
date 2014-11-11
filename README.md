@@ -10,7 +10,7 @@ Concise syntax for the [Pop](https://github.com/facebook/pop) animation framewor
 
 Add the following to your [CocoaPods](http://cocoapods.org/) Podfile
 
-    pod 'POP+MCAnimate', '~> 1.0'
+    pod 'POP+MCAnimate', '~> 2.0'
 
 or clone as a git submodule,
 
