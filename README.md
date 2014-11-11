@@ -80,6 +80,29 @@ If you need to stop animations mid-way, use the stop proxy:
 
 The `finished` flag in the completion handler will return `NO` if any of the animations in the group were stopped before completion.
 
+## Staggering Animations
+
+Big thanks to @borndangerous and @bradjasper for their suggestion on `beginTime`. Great idea from @borndangerous on using sequences.
+
+Set the `beginTime` property before any animations to stagger the animations by the said amount:
+```
+circle.beginTime = CACurrentMediaTime() + 0.1
+circle.spring.alpha = 1;
+circle.spring.scaleXY = CGPointMake(1, 1);
+```
+
+Once `beginTime` is set, it will persist until removed (by setting to 0), so all animations following that will be affected (which is probably what you want.)
+
+If you work with `NSArrays`, it's even easier using the `-sequenceWithInterval:animations:completion:` method:
+```
+[circles sequenceWithInterval:0.1 animations:^(UIView *circle, NSInteger index){
+    circle.spring.center = position;
+    circle.spring.alpha = 1;
+    circle.spring.scaleXY = CGPointMake(1, 1);
+} completion:^(BOOL finished){
+}];
+```
+
 ## Custom Properties
 
 You can make any property animatable by first declaring it:
