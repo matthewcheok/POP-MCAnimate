@@ -29,6 +29,9 @@ static char kBasicAnimationProxyKey;
     POPBasicAnimation *animation = [POPBasicAnimation animation];
     animation.duration = self.duration;
     animation.timingFunction = self.timingFunction;
+    
+    animation.beginTime = [self.object pop_beginTime];
+
     return animation;
 }
 

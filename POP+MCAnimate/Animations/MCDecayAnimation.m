@@ -36,6 +36,8 @@ static char kDecayAnimationProxyKey;
 		animation.velocity = velocity;
         [self.object mc_velocityProxy].velocity = nil;        
 	}
+    
+    animation.beginTime = [self.object pop_beginTime];
 
 	return animation;
 }
