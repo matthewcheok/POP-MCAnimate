@@ -39,6 +39,8 @@ static char kSpringAnimationProxyKey;
         [self.object mc_velocityProxy].velocity = nil;
 	}
     
+    animation.beginTime = [self.object pop_beginTime];
+    
     return animation;
 }
 

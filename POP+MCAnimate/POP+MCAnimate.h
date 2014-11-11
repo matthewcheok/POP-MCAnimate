@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSArray+MCSequence.h"
 #import "CALayer+MCShorthand.h"
 #import "UIView+MCShorthand.h"
 
 #import "MCAnimationGroup.h"
 #import "MCVelocityProxy.h"
 #import "MCStopProxy.h"
+#import "MCBeginTime.h"
 
 #import "MCBasicAnimation.h"
 #import "MCDecayAnimation.h"

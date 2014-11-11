@@ -8,6 +8,7 @@
 
 #import "MCProxy.h"
 #import "MCVelocityProxy.h"
+#import "MCBeginTime.h"
 
 #import <POP.h>
 
