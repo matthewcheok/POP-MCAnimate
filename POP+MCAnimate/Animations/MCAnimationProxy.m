@@ -9,6 +9,10 @@
 #import "MCAnimationProxy.h"
 #import "MCAnimationGroupInternal.h"
 
+#import <objc/runtime.h>
+
+static char kAnimationDelegateKey;
+
 @implementation MCAnimationProxy
 
 #pragma mark - Methods
@@ -159,6 +163,14 @@
 @end
 
 @implementation NSObject (MCAnimationProxy)
+
+- (id)pop_delegate {
+    return objc_getAssociatedObject(self, &kAnimationDelegateKey);
+}
+
+- (void)setPop_delegate:(id)pop_delegate {
+    objc_setAssociatedObject(self, &kAnimationDelegateKey, pop_delegate, OBJC_ASSOCIATION_ASSIGN);
+}
 
 + (void)pop_addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id, CGFloat *))readBlock writeBlock:(void (^)(id, const CGFloat *))writeBlock threshold:(CGFloat)threshold {
     [self pop_registerAnimatablePropertyWithName:propertyName readBlock:readBlock writeBlock:writeBlock threshold:threshold];

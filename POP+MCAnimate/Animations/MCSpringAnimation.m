@@ -40,6 +40,8 @@ static char kSpringAnimationProxyKey;
 	}
     
     animation.beginTime = [self.object pop_beginTime];
+    animation.delegate = [self.object pop_delegate];
+    [self.object setPop_delegate:nil];
     
     return animation;
 }

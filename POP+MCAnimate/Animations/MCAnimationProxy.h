@@ -14,6 +14,8 @@
 
 @interface MCAnimationProxy : MCProxy
 
+@property (weak, nonatomic) id delegate;
+
 // subclasses should implement the following methods
 
 + (NSString *)propertyNameForSelector:(SEL)selector;
@@ -22,6 +24,8 @@
 @end
 
 @interface NSObject (MCAnimationProxy)
+
+@property (weak, nonatomic) id pop_delegate;
 
 + (void)pop_addAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold __attribute__((deprecated));
 + (void)pop_registerAnimatablePropertyWithName:(NSString *)propertyName readBlock:(void (^)(id obj, CGFloat values[]))readBlock writeBlock:(void (^)(id obj, const CGFloat values[]))writeBlock threshold:(CGFloat)threshold;
