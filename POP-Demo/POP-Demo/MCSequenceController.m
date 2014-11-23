@@ -20,6 +20,10 @@ static CGFloat const kCircleSize       = 16;
 
 @implementation MCSequenceController
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 - (IBAction)handleTap:(id)sender {
 	CGFloat angleIncrement = M_PI * 2 / kNumberOfCircles;
 	CGPoint center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2);

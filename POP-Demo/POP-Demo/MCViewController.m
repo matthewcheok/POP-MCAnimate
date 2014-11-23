@@ -17,7 +17,7 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 
 #import "POPCGUtils.h"
 
-@interface MCViewController ()
+@interface MCViewController () <POPAnimationDelegate>
 
 @property (assign, nonatomic) MCControllerAnimationType type;
 @property (weak, nonatomic) IBOutlet UIView *boxView;
@@ -114,6 +114,7 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 			switch (self.type) {
 				case MCControllerAnimationTypeSpring: {
 					self.boxView.velocity.center = [pan velocityInView:self.boxView];
+                    self.boxView.pop_delegate = self;
 					self.boxView.springBounciness = 20;
 					self.boxView.springSpeed = 20;
 					self.boxView.spring.center = viewCenter;
@@ -194,6 +195,10 @@ typedef NS_ENUM (NSInteger, MCControllerAnimationType) {
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
+}
+
+- (void)pop_animationDidStop:(POPAnimation *)anim finished:(BOOL)finished {
+    NSLog(@"delegate stop");
 }
 
 @end
